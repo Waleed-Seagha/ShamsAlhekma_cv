@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar" data-theme="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="description" content="طلبات التوظيف 2026 - مدرسة شمس الحكمة"/>
+  <title>طلبات التوظيف 2026 | مدرسة شمس الحكمة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="icon" href="image/logo.jpg" type="image/jpeg"/>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', stored || prefers);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="site site-organic applicants-page">
+
+  <!-- ===== Header ===== -->
+  <header class="applicants-header" role="banner">
+    <div class="container applicants-header__inner">
+      <a class="applicants-brand" href="index.html" aria-label="مدرسة شمس الحكمة">
+        <img src="image/logo.jpg" alt="شعار مدرسة شمس الحكمة" class="applicants-brand__logo"/>
+        <div class="applicants-brand__text">
+          <span class="applicants-brand__name">مدرسة شمس الحكمة</span>
+          <span class="applicants-brand__tagline">Shams Al-Hekma School</span>
+        </div>
+      </a>
+      <div class="applicants-header__title-wrap">
+        <h1 class="applicants-header__title">طلبات التوظيف 2026</h1>
+      </div>
+      <button id="themeToggle" class="theme-toggle" aria-label="تبديل الوضع" aria-pressed="false">
+        <span class="material-symbols-outlined" aria-hidden="true">light_mode</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ===== Hero Section ===== -->
+    <section class="applicants-hero" aria-labelledby="hero-heading">
+      <div class="container applicants-hero__grid">
+        <div class="applicants-hero__media">
+          <div class="applicants-hero__shape applicants-hero__shape--gold" aria-hidden="true"></div>
+          <div class="applicants-hero__shape applicants-hero__shape--blue" aria-hidden="true"></div>
+          <img src="image/school.png" alt="صورة مدرسة شمس الحكمة" class="applicants-hero__image"/>
+        </div>
+        <div class="applicants-hero__content">
+          <h2 id="hero-heading" class="applicants-hero__heading">إدارة طلبات التوظيف</h2>
+          <p class="applicants-hero__desc">
+            لوحة متابعة احترافية لعرض وفلترة وترتيب طلبات التوظيف المقدمة لمدرسة شمس الحكمة لعام 2026.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Dashboard & Table ===== -->
+    <section class="applicants-section" aria-labelledby="dashboard-heading">
+      <div class="container">
+
+        <!-- رأس الطباعة (يظهر عند الطباعة فقط) -->
+        <div id="printHeader" class="applicants-print-header" aria-hidden="true">
+          <div class="applicants-print-header__top">
+            <img src="image/logo.jpg" alt="" class="applicants-print-header__logo"/>
+            <div class="applicants-print-header__info">
+              <h2 class="applicants-print-header__school">مدرسة شمس الحكمة</h2>
+              <p class="applicants-print-header__title">طلبات التوظيف 2026</p>
+            </div>
+          </div>
+          <div id="printMeta" class="applicants-print-header__meta"></div>
+        </div>
+
+        <h2 id="dashboard-heading" class="visually-hidden">لوحة التحكم والجدول</h2>
+
+        <!-- حالة التحميل -->
+        <div id="loadingState" class="applicants-state applicants-state--loading" role="status" aria-live="polite">
+          <span class="applicants-spinner" aria-hidden="true"></span>
+          <p>جاري تحميل بيانات المتقدمين...</p>
+        </div>
+
+        <!-- حالة الخطأ -->
+        <div id="errorState" class="applicants-state applicants-state--error" hidden role="alert">
+          <span class="material-symbols-outlined" aria-hidden="true">error</span>
+          <p id="errorMessage">تعذّر تحميل البيانات. يرجى المحاولة لاحقاً.</p>
+          <button type="button" id="retryBtn" class="btn btn--gradient">إعادة المحاولة</button>
+        </div>
+
+        <!-- المحتوى الرئيسي (يُعرض بعد التحميل) -->
+        <div id="dashboardContent" class="applicants-dashboard" hidden>
+
+          <!-- مربع البحث -->
+          <div class="applicants-search-wrap">
+            <label class="visually-hidden" for="searchInput">بحث في المتقدمين</label>
+            <span class="material-symbols-outlined applicants-search__icon" aria-hidden="true">search</span>
+            <input
+              type="search"
+              id="searchInput"
+              class="applicants-search"
+              placeholder="ابحث بالاسم، المؤهل، الهاتف، الوظيفة..."
+              data-placeholder-desktop="ابحث بالاسم، المؤهل العلمي، رقم الهاتف، أو الوظيفة..."
+              data-placeholder-mobile="ابحث..."
+              autocomplete="off"
+            />
+            <button type="button" id="clearSearchBtn" class="applicants-search__clear" aria-label="مسح البحث" hidden>
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <!-- أزرار الفلترة -->
+          <div class="applicants-filters" role="group" aria-label="فلترة حسب الوظيفة">
+            <button type="button" class="applicants-filter-btn is-active" data-filter="all">الكل</button>
+            <button type="button" class="applicants-filter-btn" data-filter="class-teacher">معلم صف</button>
+            <button type="button" class="applicants-filter-btn" data-filter="english-teacher">معلم لغة إنكليزية</button>
+            <button type="button" class="applicants-filter-btn" data-filter="other">وظائف أخرى</button>
+          </div>
+
+          <!-- بطاقات الإحصائيات -->
+          <div class="applicants-stats" id="statsCards" aria-label="إحصائيات المتقدمين">
+            <!-- تُبنى ديناميكياً من JavaScript -->
+          </div>
+
+          <!-- شريط الأدوات: ترتيب + تصدير + طباعة -->
+          <div class="applicants-toolbar">
+            <div class="applicants-toolbar__sort" role="group" aria-label="ترتيب النتائج">
+              <span class="applicants-toolbar__label">ترتيب:</span>
+              <button type="button" id="sortDefaultBtn" class="applicants-sort-btn is-active" data-sort="default">
+                <span class="material-symbols-outlined" aria-hidden="true">format_list_numbered</span>
+                الأصلي
+              </button>
+              <button type="button" id="sortNameBtn" class="applicants-sort-btn" data-sort="name">
+                <span class="material-symbols-outlined" aria-hidden="true">sort_by_alpha</span>
+                حسب الاسم
+              </button>
+              <button type="button" id="sortAgeBtn" class="applicants-sort-btn" data-sort="age">
+                <span class="material-symbols-outlined" aria-hidden="true">cake</span>
+                حسب العمر
+              </button>
+            </div>
+            <div class="applicants-toolbar__actions">
+              <button type="button" id="exportExcelBtn" class="btn btn--outline applicants-action-btn">
+                <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                تصدير Excel
+              </button>
+              <button type="button" id="printBtn" class="btn btn--gradient applicants-action-btn">
+                <span class="material-symbols-outlined" aria-hidden="true">print</span>
+                طباعة
+              </button>
+            </div>
+          </div>
+
+          <!-- عدد النتائج -->
+          <p class="applicants-results-count" id="resultsCount" aria-live="polite"></p>
+
+          <!-- تلميح التمرير على الموبايل -->
+          <p class="applicants-scroll-hint" id="scrollHint" aria-hidden="true">
+            <span class="material-symbols-outlined">swipe_left</span>
+            مرّر أفقياً لعرض جميع الأعمدة
+          </p>
+
+          <!-- عرض البطاقات (موبايل) -->
+          <div id="mobileCardsView" class="applicants-cards" aria-label="قائمة المتقدمين"></div>
+
+          <!-- الجدول (كمبيوتر / طباعة) -->
+          <div class="applicants-table-wrap" id="tableWrap">
+            <table class="applicants-table" id="applicantsTable">
+              <thead id="tableHead">
+                <!-- رؤوس الأعمدة تُبنى ديناميكياً -->
+              </thead>
+              <tbody id="tableBody">
+                <!-- الصفوف تُبنى ديناميكياً -->
+              </tbody>
+            </table>
+          </div>
+
+          <p id="emptyState" class="applicants-empty" hidden>لا توجد نتائج مطابقة لبحثك أو الفلتر المحدد.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer applicants-footer" role="contentinfo">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="brand brand--footer">
+          <img src="image/logo.jpg" alt="شعار مدرسة شمس الحكمة" class="brand__logo"/>
+          <span class="brand__name">مدرسة شمس الحكمة</span>
+        </a>
+        <p>نلتزم ببيئة تعليمية دافئة ومحفزة تساعد كل طفل على التألق.</p>
+      </div>
+      <div class="footer__col">
+        <h3>معلومات الاتصال</h3>
+        <ul class="list list--contact">
+          <li><span class="material-symbols-outlined">location_on</span><span>جرمانا، سوريا، شارع النسيم</span></li>
+          <li><span class="material-symbols-outlined">call</span><a href="tel:+963947819490" dir="ltr">+963 947 819 490</a></li>
+          <li><span class="material-symbols-outlined">email</span><a href="mailto:shamsalhekma@gmail.com">shamsalhekma@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 مدرسة شمس الحكمة. جميع الحقوق محفوظة.</p>
+    </div>
+  </footer>
+
+  <script src="job-applicants.js"></script>
+  <script>
+    /* تبديل الوضع الفاتح/الداكن */
+    (function () {
+      var toggle = document.getElementById('themeToggle');
+      if (!toggle) return;
+      var apply = function (theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+        toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        toggle.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">' +
+          (theme === 'dark' ? 'dark_mode' : 'light_mode') + '</span>';
+      };
+      var current = document.documentElement.getAttribute('data-theme') || 'light';
+      apply(current);
+      toggle.addEventListener('click', function () {
+        var t = document.documentElement.getAttribute('data-theme') || 'light';
+        apply(t === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>
